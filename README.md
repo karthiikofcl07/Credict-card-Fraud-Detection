@@ -1,21 +1,34 @@
-🛡️ Credit Card Fraud Detection — System Description
-Task: Build a supervised machine learning model to classify credit card transactions as fraudulent or legitimate, using a dataset of 1.85M real-world transactions. Experiment with Logistic Regression, Decision Trees, and Random Forests.
+# 🛡️ Credit Card Fraud Detection — System Description
 
-📌 Problem Statement
-Credit card fraud costs the global economy $32 billion annually. Traditional rule-based systems generate excessive false positives, frustrating legitimate customers. Machine learning enables pattern detection at scale — catching fraud in milliseconds without blocking real purchases.
+> **Task:** Build a supervised machine learning model to classify credit card transactions as **fraudulent** or **legitimate**, using a dataset of 1.85M real-world transactions. Experiment with Logistic Regression, Decision Trees, and Random Forests.
 
-Key challenge: Extreme class imbalance (~0.5% fraud rate) requiring careful handling via class weighting.
+---
 
-🗂️ Dataset Overview
-Property	Value
-Source	Synthetic credit card transactions (Jan 2019–Dec 2020)
-Train Rows	1,296,675
-Test Rows	555,719
-Total	1,851,394 transactions
-Fraud (Train)	7,506 (0.58%)
-Features	23 raw → 16 engineered
-Target	is_fraud (0 = legitimate, 1 = fraud)
-🔄 ML Pipeline Flowchart
+## 📌 Problem Statement
+
+Credit card fraud costs the global economy **$32 billion annually**. Traditional rule-based systems generate excessive false positives, frustrating legitimate customers. Machine learning enables pattern detection at scale — catching fraud in milliseconds without blocking real purchases.
+
+**Key challenge:** Extreme class imbalance (~0.5% fraud rate) requiring careful handling via class weighting.
+
+---
+
+## 🗂️ Dataset Overview
+
+| Property | Value |
+|---|---|
+| **Source** | Synthetic credit card transactions (Jan 2019–Dec 2020) |
+| **Train Rows** | 1,296,675 |
+| **Test Rows** | 555,719 |
+| **Total** | 1,851,394 transactions |
+| **Fraud (Train)** | 7,506 (0.58%) |
+| **Features** | 23 raw → 16 engineered |
+| **Target** | `is_fraud` (0 = legitimate, 1 = fraud) |
+
+---
+
+## 🔄 ML Pipeline Flowchart
+
+```
 ┌──────────────────────────────────────────────────────────────────┐
 │                     RAW DATA (fraudTrain.csv)                    │
 │         1,296,675 transactions  ·  23 columns                    │
@@ -126,7 +139,13 @@ Target	is_fraud (0 = legitimate, 1 = fraud)
 │   GET  /health         → Service health check                    │
 │   GET  /               → Responsive dashboard UI                 │
 └──────────────────────────────────────────────────────────────────┘
-🏗️ Full System Architecture
+```
+
+---
+
+## 🏗️ Full System Architecture
+
+```
 fraud_detection/
 ├── app.py                         ← Flask REST API + ML inference
 ├── FraudDetection_Analysis.ipynb  ← Full EDA + training notebook
@@ -147,30 +166,47 @@ fraud_detection/
 │   ├── roc_pr_curves.png
 │   └── model_comparison.png
 └── static/                        ← (for additional assets)
-🧠 Algorithms Compared
-1. Logistic Regression
-Baseline linear classifier with L2 regularisation
-Features scaled with StandardScaler
-class_weight='balanced' to handle imbalance
-AUC-ROC: 0.9364
-2. Decision Tree
-Non-linear, interpretable tree with depth=10
-Captures complex feature interactions
-Fast training and inference
-AUC-ROC: 0.9828
-3. Random Forest ⭐ Best
-Ensemble of 100 decision trees
-Robust to overfitting via bagging
-Returns calibrated probabilities
-AUC-ROC: 0.9941 | F1: 0.9048
-📈 Key Findings
-Finding	Insight
-Amount is the top predictor	Fraudulent transactions average $527 vs $67 for legitimate
-Late night is risky	Fraud rate peaks between 10 PM–3 AM
-misc_net category leads	72% fraud rate — likely CNP (Card Not Present) fraud
-Geographic distance matters	Large card-holder to merchant distance signals anomaly
-Class imbalance is severe	Only 0.52% fraud — requires balanced class weighting
-🚀 Running the App
+```
+
+---
+
+## 🧠 Algorithms Compared
+
+### 1. Logistic Regression
+- Baseline linear classifier with L2 regularisation
+- Features scaled with StandardScaler
+- `class_weight='balanced'` to handle imbalance
+- AUC-ROC: **0.9364**
+
+### 2. Decision Tree
+- Non-linear, interpretable tree with depth=10
+- Captures complex feature interactions
+- Fast training and inference
+- AUC-ROC: **0.9828**
+
+### 3. Random Forest ⭐ Best
+- Ensemble of 100 decision trees
+- Robust to overfitting via bagging
+- Returns calibrated probabilities
+- AUC-ROC: **0.9941** | F1: **0.9048**
+
+---
+
+## 📈 Key Findings
+
+| Finding | Insight |
+|---|---|
+| **Amount is the top predictor** | Fraudulent transactions average $527 vs $67 for legitimate |
+| **Late night is risky** | Fraud rate peaks between 10 PM–3 AM |
+| **misc_net category leads** | 72% fraud rate — likely CNP (Card Not Present) fraud |
+| **Geographic distance matters** | Large card-holder to merchant distance signals anomaly |
+| **Class imbalance is severe** | Only 0.52% fraud — requires balanced class weighting |
+
+---
+
+## 🚀 Running the App
+
+```bash
 # Install dependencies
 pip install -r requirements.txt
 
@@ -179,4 +215,8 @@ python app.py
 
 # Open in browser
 http://localhost:5000
-Built with Python 3.11 · scikit-learn · pandas · matplotlib · Flask
+```
+
+---
+
+*Built with Python 3.11 · scikit-learn · pandas · matplotlib · Flask*
